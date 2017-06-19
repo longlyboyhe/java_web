@@ -17,16 +17,17 @@ public class DaoUserImp {
         }
         Statement st = conn.createStatement();
         String sql = "select * from t_user where name ='" + name + "' and pass = '" + pwd + "';";
-        System.out.println(sql);
         ResultSet rs = st.executeQuery(sql);
         User user = null;
         if (rs.next()) {
+            int userId = rs.getInt("id");
             String _name = rs.getString("name");
             String _pwd = rs.getString("pass");
             String _nickName = rs.getString("nick_name");
             String _phone = rs.getString("phone_num");
             int _userType = rs.getInt("user_type");
             user = new User(_name, _nickName, _pwd, _phone, _userType);
+            user.setId(userId);
         }
         return user;
     }

@@ -65,4 +65,16 @@ public class Goods {
     public String getPic() {
         return pic;
     }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", useWay='" + useWay + '\'' +
+                ", price=" + price +
+                ", pic='" + pic + '\'' +
+                '}';
+    }
 }

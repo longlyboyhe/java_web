@@ -10,16 +10,16 @@ public class PublicService {
      * 登录判断
      *
      * @param user user
-     * @return false-登录失败;true-登录成功
+     * @return 用户数据
      */
-    public boolean userLogin(User user) {
+    public User userLogin(User user) {
         User u = null;
         try {
             u = DaoUserImp.selectUserByNameAndPass(user.getName(), user.getPwd());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return u != null;
+        return u;
     }
 
     /**

@@ -27,4 +27,14 @@
         <url-pattern>/register.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>shopcart</servlet-name>
+        <servlet-class>servlet.ShopCartServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>shopcart</servlet-name>
+        <url-pattern>/shopcart.do</url-pattern>
+    </servlet-mapping>
+
 </web-app>

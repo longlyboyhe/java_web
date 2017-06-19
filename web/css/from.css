@@ -1,16 +1,12 @@
 * {
     padding: 0;
     margin: 0;
-    border-style: none;
-    list-style: none;
     font-family: "黑体", sans-serif;
 }
 
 .main_box {
-    border-radius: 5px;
-    border: 1px solid cornflowerblue;
     text-align: center;
-    max-width: 600px;
+    max-width: 800px;
     margin: 20px auto;
 }
 
