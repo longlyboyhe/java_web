@@ -1,0 +1,28 @@
+.list_item {
+    line-height: 120px;
+    margin: 10px;
+}
+
+.item_img {
+    height: 80%;
+    margin: 5px;
+    float: left;
+}
+
+.item_content {
+    width: 100%;
+    line-height: 100%;
+}
+
+.item_title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.item_action {
+    width: 100%;
+    line-height: 100%;
+    background: #666;
+}
+

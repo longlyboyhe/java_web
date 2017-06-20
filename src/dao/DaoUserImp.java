@@ -23,9 +23,9 @@ public class DaoUserImp {
             int userId = rs.getInt("id");
             String _name = rs.getString("name");
             String _pwd = rs.getString("pass");
-            String _nickName = rs.getString("nick_name");
-            String _phone = rs.getString("phone_num");
-            int _userType = rs.getInt("user_type");
+            String _nickName = rs.getString("nickName");
+            String _phone = rs.getString("phoneNumber");
+            int _userType = rs.getInt("type");
             user = new User(_name, _nickName, _pwd, _phone, _userType);
             user.setId(userId);
         }
@@ -50,7 +50,7 @@ public class DaoUserImp {
         if (rs.next()) {
             return "用户已存在";
         }
-        String sql = "insert into t_user(name,pass,nick_name,phone_num,user_type) values (" +
+        String sql = "insert into t_user(name,pass,nickName,phoneNumber,type) values (" +
                 "'" + user.getName() + "'," +
                 "'" + user.getPwd() + "'," +
                 "'" + user.getNickName() + "'," +

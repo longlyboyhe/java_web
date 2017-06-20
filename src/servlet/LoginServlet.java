@@ -1,7 +1,9 @@
 package servlet;
 
 
+import bean.Order;
 import bean.User;
+import dao.DaoOrderImpl;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import service.GoodsService;
 import service.PublicService;
@@ -19,25 +21,34 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            DaoOrderImpl.insertOrder(new Order(1, 1, 110, "China"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         PublicService ps = new PublicService();
+        String action = req.getParameter("action");
+        if (action != null && action.equals("log_out")) {
+            req.getSession().setAttribute("user", null);
+            resp.getWriter().write("log_out");
+            return;
+        }
         String name = req.getParameter("name");
         String pwd = req.getParameter("pwd");
         User user = new User(name, null, pwd, null, 0);
         User logUser = ps.userLogin(user);
         if (logUser != null) {
-            GoodsService goodsService = new GoodsService();
-            try {
-                ArrayList<HashMap<String, Object>> goods_list = goodsService.getAllGoodsList();
-                req.setAttribute("goods_list", goods_list);
-                req.setAttribute("u", logUser);
-                req.getRequestDispatcher("/userHome.jsp").forward(req, resp);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            req.getSession().setAttribute("user", logUser);
+            resp.sendRedirect("/index.jsp");
         } else {
             req.setAttribute("login_info", "登录失败");
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            req.getRequestDispatcher("/log.jsp").forward(req, resp);
         }
     }
 
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
+    }
 }

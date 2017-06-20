@@ -32,4 +32,25 @@ public class ShopCartService {
         return result;
     }
 
+
+    public boolean updateShopCart(int goodsNo, int userId, int number) {
+        boolean re = false;
+        try {
+            int num = DaoShopCartImpl.updateGoodsInShopCart(goodsNo, userId, number);
+            re = num > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return re;
+    }
+
+    public boolean deleteShopCart(int goodsNo, int userId) {
+        boolean re = false;
+        try {
+            re = DaoShopCartImpl.deleteShopCart(goodsNo, userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return re;
+    }
 }

@@ -4,7 +4,7 @@ package dao;
 import java.sql.*;
 
 public class Dao {
-    static String DB_HOST = "jdbc:mysql://localhost:3306/db_ji_yang";
+    static String DB_HOST = "jdbc:mysql://localhost:3306/db_ji_yang?characterEncoding=UTF-8";
     static String DB_USER = "root";
     static String DB_PWD = "jiyang147852";
 

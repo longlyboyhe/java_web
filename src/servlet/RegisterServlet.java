@@ -24,7 +24,7 @@ public class RegisterServlet extends HttpServlet {
         User user = new User(name, nickName, pwd, phoneNum, userType);
         String re = ps.userRegister(user);
         if (re.equals("success")) {
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            resp.sendRedirect("/log.jsp");
         } else {
             req.setAttribute("register_info", "注册失败:" + re);
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
