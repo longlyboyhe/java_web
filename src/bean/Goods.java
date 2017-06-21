@@ -2,23 +2,33 @@ package bean;
 
 
 public class Goods {
-    private String id;  //商品编号
+    private int id;  //商品编号
     private String name;//商品名称
     private String type;//商品类型
     private String useWay;//商品用途
     private float price;//商品价格
     private String pic; //商品图片
+    private int stock; //库存
 
-    public Goods(String id, String name, String type, String useWay, float price, String pic) {
+    public Goods(int id, String name, String type, String useWay, float price, String pic, int stock) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.useWay = useWay;
         this.price = price;
         this.pic = pic;
+        this.stock = stock;
     }
 
-    public void setId(String id) {
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -42,7 +52,7 @@ public class Goods {
         this.pic = pic;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

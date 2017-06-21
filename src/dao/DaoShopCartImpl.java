@@ -88,17 +88,18 @@ public class DaoShopCartImpl {
         ArrayList<HashMap<String, Object>> result = new ArrayList<>();
         Connection connection = Dao.getConnection();
         Statement st = connection.createStatement();
-        String sql = "select tg.goodsNo,tg.goodsName,tg.goodsType,tg.useWay,tg.price,tg.pic,ts.number from t_shopcart As ts,t_goods As tg where ts.f_goodsNo = tg.goodsNo and ts.f_userId=" + userId + ";";
+        String sql = "select tg.goodsNo,tg.goodsName,tg.goodsType,tg.stock,tg.useWay,tg.price,tg.pic,ts.number from t_shopcart As ts,t_goods As tg where ts.f_goodsNo = tg.goodsNo and ts.f_userId=" + userId + ";";
         ResultSet rs = st.executeQuery(sql);
         while (rs.next()) {
-            String id = rs.getString("goodsNo");
+            int id = rs.getInt("goodsNo");
             String name = rs.getString("goodsName");
             String type = rs.getString("goodsType");
             String useWay = rs.getString("useWay");
+            int stock = rs.getInt("stock");
             float price = rs.getFloat("price");
             int number = rs.getInt("number");
             String pic = rs.getString("pic");
-            Goods goods = new Goods(id, name, type, useWay, price, pic);
+            Goods goods = new Goods(id, name, type, useWay, price, pic, stock);
             HashMap<String, Object> hashMap = new HashMap<>(2);
             hashMap.put("goods", goods);
             hashMap.put("number", number);

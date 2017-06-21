@@ -1,5 +1,6 @@
 package servlet;
 
+import bean.Goods;
 import bean.User;
 import com.google.gson.Gson;
 import service.GoodsService;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 public class ShopCartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=UTF-8");
         ShopCartService shopCartService = new ShopCartService();
         String action = req.getParameter("action");
         switch (action) {
@@ -67,7 +69,7 @@ public class ShopCartServlet extends HttpServlet {
     private void getAllGoods(HttpServletRequest req, HttpServletResponse resp, ShopCartService shopCartService) throws IOException {
         GoodsService goodsService = new GoodsService();
         try {
-            ArrayList<HashMap<String, Object>> goods_list = goodsService.getAllGoodsList();
+            ArrayList<Goods> goods_list = goodsService.getAllGoodsList();
             Gson gson = new Gson();
             String s = gson.toJson(goods_list);
             resp.getWriter().write(s);

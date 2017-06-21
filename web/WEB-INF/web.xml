@@ -37,4 +37,14 @@
         <url-pattern>/shopcart.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>order</servlet-name>
+        <servlet-class>servlet.OrderServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>order</servlet-name>
+        <url-pattern>/order.do</url-pattern>
+    </servlet-mapping>
+
 </web-app>

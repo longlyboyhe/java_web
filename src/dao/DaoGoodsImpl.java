@@ -11,30 +11,43 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DaoGoodsImpl {
-    public static ArrayList<HashMap<String, Object>> selectAllGoods() throws SQLException {
+    public static ArrayList<Goods> selectAllGoods() throws SQLException {
         Connection conn = Dao.getConnection();
-        if (conn == null) {
-            return null;
-        }
         Statement st = conn.createStatement();
         String sql = "SELECT * FROM t_goods";
         ResultSet rs = st.executeQuery(sql);
-        ArrayList<HashMap<String, Object>> goodsList = new ArrayList<>();
+        ArrayList<Goods> goodsList = new ArrayList<>();
         while (rs.next()) {
-            String goodsId = rs.getString("goodsNo");
+            int goodsId = rs.getInt("goodsNo");
             String goodsName = rs.getString("goodsName");
             String goodsType = rs.getString("goodsType");
             String useWat = rs.getString("useWay");
             int stock = rs.getInt("stock");
             float price = rs.getFloat("price");
             String pic = rs.getString("pic");
-            Goods goods = new Goods(goodsId, goodsName, goodsType, useWat, price, pic);
-            HashMap<String, Object> map = new HashMap<>(2);
-            map.put("goods", goods);
-            map.put("stock", stock);
-            goodsList.add(map);
+            Goods goods = new Goods(goodsId, goodsName, goodsType, useWat, price, pic, stock);
+            goodsList.add(goods);
         }
         Dao.closeAll(rs, st, conn);
         return goodsList;
+    }
+
+    public static Goods getGoodsById(int goodsNo) throws SQLException {
+        Connection conn = Dao.getConnection();
+        Statement st = conn.createStatement();
+        String sql = "SELECT * FROM t_goods WHERE goodsNo =" + goodsNo;
+        ResultSet rs = st.executeQuery(sql);
+        Goods goods = null;
+        if (rs.next()) {
+            int goodsId = rs.getInt("goodsNo");
+            String goodsName = rs.getString("goodsName");
+            String goodsType = rs.getString("goodsType");
+            String useWat = rs.getString("useWay");
+            int stock = rs.getInt("stock");
+            float price = rs.getFloat("price");
+            String pic = rs.getString("pic");
+            goods = new Goods(goodsId, goodsName, goodsType, useWat, price, pic, stock);
+        }
+        return goods;
     }
 }

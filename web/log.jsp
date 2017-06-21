@@ -8,6 +8,7 @@
 <html>
 <head>
     <title>登录</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link href="bootstrap-3/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="bootstrap-3/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
@@ -15,6 +16,18 @@
     <script src="js/main.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/index.jsp" class="navbar-brand">某宝网|登录</a>
+        </div>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            <li><a href="/register.jsp"><span class="glyphicon glyphicon-user"></span>注册</a></li>
+        </ul>
+    </div>
+</nav>
 <div class="container text-center">
     <h1>登录</h1>
     <form action="login.do" method="post" onsubmit="return checkLoginInput()" role="form">

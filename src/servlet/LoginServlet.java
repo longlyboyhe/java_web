@@ -1,11 +1,7 @@
 package servlet;
 
 
-import bean.Order;
 import bean.User;
-import dao.DaoOrderImpl;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-import service.GoodsService;
 import service.PublicService;
 
 import javax.servlet.ServletException;
@@ -13,19 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            DaoOrderImpl.insertOrder(new Order(1, 1, 110, "China"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        resp.setContentType("text/html;charset=UTF-8");
         PublicService ps = new PublicService();
         String action = req.getParameter("action");
         if (action != null && action.equals("log_out")) {
