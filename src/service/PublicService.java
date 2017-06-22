@@ -4,6 +4,7 @@ import bean.User;
 import dao.DaoUserImp;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PublicService {
     /**
@@ -36,5 +37,14 @@ public class PublicService {
             e.printStackTrace();
         }
         return re;
+    }
+
+    public ArrayList<User> getAllUsers() {
+        try {
+            return DaoUserImp.getAllUsers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

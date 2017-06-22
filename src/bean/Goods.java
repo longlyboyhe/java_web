@@ -20,6 +20,16 @@ public class Goods {
         this.stock = stock;
     }
 
+
+    public Goods(String name, String type, String useWay, float price, String pic, int stock) {
+        this.name = name;
+        this.type = type;
+        this.useWay = useWay;
+        this.price = price;
+        this.pic = pic;
+        this.stock = stock;
+    }
+
     public int getStock() {
         return stock;
     }

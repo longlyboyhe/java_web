@@ -60,16 +60,16 @@ public class DaoGoodsImpl {
     public static boolean insertGoods(Goods goods) throws SQLException {
         Connection conn = Dao.getConnection();
         Statement st = conn.createStatement();
-        String sql = "INSERT INTO t_goods (goodsNo,goodsName,goodsType,useWay,stock,price,pic) VALUES ('%s','%s','%s','%s','%s','%s','%s');";
-        sql = String.format(sql, goods.getId(), goods.getName(), goods.getType(), goods.getUseWay(), goods.getStock(), goods.getPrice(), goods.getPic());
-        return st.execute(sql);
+        String sql = "INSERT INTO t_goods (goodsName,goodsType,useWay,stock,price,pic) VALUES ('%s','%s','%s','%s','%s','%s');";
+        sql = String.format(sql, goods.getName(), goods.getType(), goods.getUseWay(), goods.getStock(), goods.getPrice(), goods.getPic());
+        return st.executeUpdate(sql) > 0;
     }
 
     public static boolean updateGoods(Goods goods) throws SQLException {
         Connection conn = Dao.getConnection();
         Statement st = conn.createStatement();
         String sql = "UPDATE t_goods SET goodsName='%s',goodsType='%s',useWay='%s',stock='%s',price='%s',pic='%s' WHERE goodsNo='%s';";
-        sql = String.format(goods.getName(), goods.getType(), goods.getUseWay(), goods.getStock(), goods.getPrice(), goods.getPic(), goods.getId());
+        sql = String.format(sql, goods.getName(), goods.getType(), goods.getUseWay(), goods.getStock(), goods.getPrice(), goods.getPic(), goods.getId());
         return st.executeUpdate(sql) > 0;
     }
 }

@@ -69,9 +69,9 @@ public class OrderServlet extends HttpServlet {
         ShopCartService shopCartService = new ShopCartService();
         shopCartService.deleteShopCart(goodsNo, user.getId());
         if (re) {
-            writer.write("ok");
+            writer.print("ok");
         } else {
-            writer.write("failed");
+            writer.print("failed");
         }
     }
 

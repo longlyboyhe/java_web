@@ -3,10 +3,12 @@ package dao;
 
 import bean.User;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class DaoUserImp {
     public static User selectUserByNameAndPass(String name, String pwd, int type) throws SQLException {
@@ -61,5 +63,24 @@ public class DaoUserImp {
             return "success";
         return "failed";
 
+    }
+
+
+    public static ArrayList<User> getAllUsers() throws SQLException {
+        Connection conn = Dao.getConnection();
+        Statement st = conn.createStatement();
+        String sql = "SELECT * FROM t_user";
+        ResultSet rs = st.executeQuery(sql);
+        ArrayList<User> users = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            String nickName = rs.getString("nickName");
+            String phone = rs.getString("phoneNumber");
+            int type = rs.getInt("type");
+            User user = new User(id, name, nickName, phone, type);
+            users.add(user);
+        }
+        return users;
     }
 }

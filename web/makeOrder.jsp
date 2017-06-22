@@ -44,7 +44,7 @@
                         var i = 5;
                         setInterval(function () {
                             document.getElementById("info").innerHTML = i + "秒跳转商品列表";
-                            if (i <= 0) {
+                            if (i < 1) {
                                 location.href = "/index.jsp";
                             }
                             i--;

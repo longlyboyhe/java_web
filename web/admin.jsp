@@ -158,15 +158,40 @@
             content += "</tbody></table>";
             well_2.innerHTML = content;
         }
-        function getUser(m) {
-
+        function getUser() {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "admin.do",
+                async: "true",
+                data: {
+                    "action": "get_all_user"
+                }, success: function (json) {
+                    setUser(json)
+                }, error: function (json) {
+                    console.log("not ok:" + json);
+                }
+            });
         }
-        function setUser(m) {
-
+        function setUser(json) {
+            var well_3 = document.getElementById("well_3");
+            var content = "<table class='table'><thead><tr><th>用户编号</th><th>用户名</th><th>昵称</th><th>手机号</th><th>身份</th></tr></thead><tbody>";
+            for (var i = 0; i < json.length; i++) {
+                var user = json[i];
+                content += "<tr><td>%1</td><td>%2</td><td>%3</td><td>%4</td><td>%5</td></tr>";
+                var identity = "";
+                if (user['userType'] === 1) {
+                    identity = "<button class='btn btn-primary'>管理员</button>";
+                } else {
+                    identity = "<button class='btn btn-success'>普通用户</button>";
+                }
+                content = String.format(content, user['id'], user['name'], user['nickName'], user['phoneNum'], identity);
+            }
+            content += "</tbody></table>";
+            well_3.innerHTML = content;
         }
 
         function editGoods(goods) {
-            console.log(goods);
             location.href = "goods.do?action=edit&goodsNo=" + goods['id'];
         }
 
@@ -216,7 +241,6 @@
         </div>
         <div class="well" id="well_2" style="display: none">
             <a href="edit_goods.jsp" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>添加</a>
-            <h1>商品管理</h1>
             <div class="well" id="well_2_2">
 
             </div>

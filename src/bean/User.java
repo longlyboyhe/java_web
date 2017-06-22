@@ -19,6 +19,14 @@ public class User {
         this.userType = userType;
     }
 
+    public User(int id, String name, String nickName, String phoneNum, int userType) {
+        this.id = id;
+        this.name = name;
+        this.nickName = nickName;
+        this.phoneNum = phoneNum;
+        this.userType = userType;
+    }
+
     public void setUserType(int userType) {
         this.userType = userType;
     }
