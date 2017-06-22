@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DaoGoodsImpl {
     public static ArrayList<Goods> selectAllGoods() throws SQLException {
@@ -32,7 +31,7 @@ public class DaoGoodsImpl {
         return goodsList;
     }
 
-    public static Goods getGoodsById(int goodsNo) throws SQLException {
+    public static Goods getGoodsById(Object goodsNo) throws SQLException {
         Connection conn = Dao.getConnection();
         Statement st = conn.createStatement();
         String sql = "SELECT * FROM t_goods WHERE goodsNo =" + goodsNo;
@@ -49,5 +48,28 @@ public class DaoGoodsImpl {
             goods = new Goods(goodsId, goodsName, goodsType, useWat, price, pic, stock);
         }
         return goods;
+    }
+
+    public static boolean updateGoodsNum(int goodsNo, int addNum) throws SQLException {
+        Connection conn = Dao.getConnection();
+        Statement st = conn.createStatement();
+        String sql = "UPDATE t_goods SET stock=stock+'" + addNum + "' WHERE goodsNo='" + goodsNo + "';";
+        return st.executeUpdate(sql) > 0;
+    }
+
+    public static boolean insertGoods(Goods goods) throws SQLException {
+        Connection conn = Dao.getConnection();
+        Statement st = conn.createStatement();
+        String sql = "INSERT INTO t_goods (goodsNo,goodsName,goodsType,useWay,stock,price,pic) VALUES ('%s','%s','%s','%s','%s','%s','%s');";
+        sql = String.format(sql, goods.getId(), goods.getName(), goods.getType(), goods.getUseWay(), goods.getStock(), goods.getPrice(), goods.getPic());
+        return st.execute(sql);
+    }
+
+    public static boolean updateGoods(Goods goods) throws SQLException {
+        Connection conn = Dao.getConnection();
+        Statement st = conn.createStatement();
+        String sql = "UPDATE t_goods SET goodsName='%s',goodsType='%s',useWay='%s',stock='%s',price='%s',pic='%s' WHERE goodsNo='%s';";
+        sql = String.format(goods.getName(), goods.getType(), goods.getUseWay(), goods.getStock(), goods.getPrice(), goods.getPic(), goods.getId());
+        return st.executeUpdate(sql) > 0;
     }
 }

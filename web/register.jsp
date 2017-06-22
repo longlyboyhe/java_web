@@ -18,12 +18,12 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="/index.jsp" class="navbar-brand">某宝网|注册</a>
+            <a href="index.jsp" class="navbar-brand">某宝网|注册</a>
         </div>
     </div>
     <div>
         <ul class="nav navbar-nav">
-            <li><a href="/log.jsp"><span class="glyphicon glyphicon-user"></span>登录</a></li>
+            <li><a href="log.jsp"><span class="glyphicon glyphicon-user"></span>登录</a></li>
         </ul>
     </div>
 </nav>
@@ -38,8 +38,9 @@
         <input id="nick_name" type="text" name="nick_name" placeholder="昵称" class="form-control"><br>
         <input id="phone_num" type="tel" name="phone_num" placeholder="手机号" class="form-control"><br>
         <div class="btn-group">
-            <input class="radio-button" type="radio" name="identity" value="normal" checked="checked">普通用户
-            <input class="radio-button" type="radio" name="identity" value="admin">管理员
+            <label> <input class="radio-button" type="radio" name="identity" value="normal"
+                           checked="checked">普通用户</label>
+            <label><input class="radio-button" type="radio" name="identity" value="admin">管理员</label>
         </div>
         <br>
         <div class="btn-group">

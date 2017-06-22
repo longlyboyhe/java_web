@@ -2,11 +2,11 @@ package service;
 
 
 import bean.Order;
-import dao.Dao;
 import dao.DaoOrderImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class OrderService {
 
@@ -20,13 +20,23 @@ public class OrderService {
         return re;
     }
 
-    public ArrayList<Order> getAllOrders(int userId) {
+    public ArrayList<Order> getUserAllOrders(int userId) {
         ArrayList<Order> orders = null;
         try {
-            orders = DaoOrderImpl.getAllOrders(userId);
+            orders = DaoOrderImpl.getUserAllOrders(userId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return orders;
+    }
+
+    public ArrayList<Order> getAllOrders() throws SQLException {
+        ArrayList<Order> orders;
+        orders = DaoOrderImpl.getAllOrders();
+        return orders;
+    }
+
+    public boolean updateOrderStatus(int orderId, ArrayList<HashMap<String, Object>> array) throws SQLException {
+        return DaoOrderImpl.updateOrderStatus(orderId, array);
     }
 }

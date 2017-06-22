@@ -13,6 +13,7 @@ public class Order {
     private String address;
     private String phoneNumber;
     private String orderDate;
+    private boolean hasOver;    //收否接单
     /**
      * 格式为goodsId1-number1-goodsId2-number2
      * 商品ID-用户购买数量
@@ -25,13 +26,32 @@ public class Order {
         return goodsMap;
     }
 
-    public Order(int orderId, int serialNumber, String address, String phoneNumber, String orderDate, String orderGoodsIds) {
+    public void setHasOver(boolean hasOver) {
+        this.hasOver = hasOver;
+    }
+
+    public boolean isHasOver() {
+        return hasOver;
+    }
+
+    public Order(int serialNumber, int orderUserId, String address, String phoneNumber, String orderDate, String orderGoodsIds) {
+        this.serialNumber = serialNumber;
+        this.orderUserId = orderUserId;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.orderDate = orderDate;
+        this.orderGoodsIds = orderGoodsIds;
+    }
+
+    public Order(int orderId, int orderUserId, int serialNumber, String address, String phoneNumber, String orderDate, String orderGoodsIds, boolean hasOver) {
         this.orderId = orderId;
+        this.orderUserId = orderUserId;
         this.serialNumber = serialNumber;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.orderDate = orderDate;
         this.orderGoodsIds = orderGoodsIds;
+        this.hasOver = hasOver;
         this.goodsMap = new ArrayList<>();
         String[] datas = orderGoodsIds.split("-");
         for (int i = 0; i < datas.length; i += 2) {

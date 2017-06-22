@@ -5,20 +5,111 @@
 <html>
 <head>
     <title>某宝网|商品列表</title>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <script type="application/javascript" src="js/jquery-3.2.1.js"></script>
+    <script src="bootstrap-3/js/bootstrap.min.js" type="javascript"></script>
     <link href="bootstrap-3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <script type="application/javascript">
-        function addToShopCart(stock, goodsId) {
+        function showOrderFrom(stock, goodsId, position, action) {
             if ('null' === '<%=session.getAttribute("user")%>') {
                 alert("请先登录");
                 return;
             }
-            var str_addNumber = window.prompt("输入添加到购物车的数目:", 1);
-            var addNumber = parseInt(str_addNumber);
-            if (addNumber > stock) {
+            if (action === 0) {
+                document.getElementById(position).innerHTML = '<div id="edit_order' + position + '" class="panel panel-primary">' +
+                    '<div class="panel-heading">' +
+                    '<h3 class="panel-title">添加购物车</h3>' +
+                    '</div>' +
+                    '<div class="panel-body">' +
+                    '<form role="form">' +
+                    '<input type="number" id="order_num' + position + '" placeholder="输入添加件数" class="form-control">' +
+                    '<br>' +
+                    '<button id="submit_btn' + position + '" type="button" class="btn btn-success">添加</button>' +
+                    '  <button id="cancel_btn' + position + '" type="button" class="btn btn-default">取消</button>' +
+                    '</form>' +
+                    '</div>' +
+                    '</div>';
+
+                document.getElementById("submit_btn" + position).addEventListener("click", function () {
+                    addToShopCart(stock, goodsId, position);
+                });
+
+                document.getElementById("cancel_btn" + position).addEventListener("click", function () {
+                    closeOrderForm(position);
+                })
+            } else {
+                document.getElementById(position).innerHTML = '<div id="edit_order' + position + '" class="panel panel-primary">' +
+                    '<div class="panel-heading">' +
+                    '<h3 class="panel-title">确定购物信息</h3>' +
+                    '</div>' +
+                    '<div class="panel-body">' +
+                    '<form role="form">' +
+                    '<input type="number" id="order_num' + position + '" placeholder="输入添加件数" class="form-control">' +
+                    '<input type="text" id="order_address' + position + '" placeholder="您的地址" class="form-control">' +
+                    '<input type="tel" id="order_phone' + position + '" placeholder="您的手机" class="form-control">' +
+                    '<br>' +
+                    '<button id="submit_btn' + position + '" type="button" class="btn btn-success">添加</button>' +
+                    '  <button id="cancel_btn' + position + '" type="button" class="btn btn-default">取消</button>' +
+                    '</form>' +
+                    '</div>' +
+                    '</div>';
+
+                document.getElementById("submit_btn" + position).addEventListener("click", function () {
+                    makeOrder(stock, goodsId, position);
+                });
+
+                document.getElementById("cancel_btn" + position).addEventListener("click", function () {
+                    closeOrderForm(position);
+                })
+            }
+
+        }
+
+        function makeOrder(stock, goodsNo, position) {
+            var number = document.getElementById("order_num" + position).value;
+            var address = document.getElementById("order_address" + position).value;
+            var phone = document.getElementById("order_phone" + position).value;
+            if (number > stock) {
+                alert("购买数目大于库存!");
+                return;
+            }
+            if (number < 1) {
+                alert("数目必须大于0噢");
+                return;
+            }
+            $.ajax({
+                type: "post", url: "order.do", async: "true",
+                data: {
+                    "action": "insertItem",
+                    "number": number,
+                    "address": address,
+                    "phone": phone,
+                    "goodsNo": goodsNo
+                }, success: function (m) {
+                    console.log(m);
+                    if (m === 'ok') {
+                        location.href = "order.jsp";
+                    } else {
+
+                    }
+                }, error: function (m) {
+                    console.log(m);
+                }
+            })
+        }
+
+        function closeOrderForm(postion) {
+            document.getElementById("edit_order" + postion).style.display = "none";
+        }
+
+        function addToShopCart(stock, goodsId, position) {
+            var number = document.getElementById("order_num" + position).value;
+            if (number > stock) {
                 alert("添加数目大于库存!");
+                return;
+            }
+            if (number < 1) {
+                alert("数目必须大于0噢");
                 return;
             }
             var actionInfo = document.getElementById("action_info");
@@ -30,18 +121,21 @@
                 data: {
                     "action": "add",
                     "goodsId": goodsId,
-                    "number": addNumber
+                    "number": number
                 },
                 success: function (msg) {
                     if (msg === "add_success") {
+                        closeOrderForm(position);
                         actionInfo.innerHTML = '<a href="/shopCar.jsp" class="btn btn-primary">添加成功，查看购物车</a>';
                     }
                 },
                 error: function (result, status, xhr) {
+                    closeOrderForm(position);
                     actionInfo.innerHTML = "请求出错" + result + status + xhr;
                 }
             });
         }
+
         function getAllGoods() {
             $.ajax({
                     type: "post",
@@ -51,7 +145,8 @@
                     data: {
                         "action": "get_all_goods"
                     }, success: function (msg) {
-                        s = '<h1>全部商品</h1><br><div id="action_info"></div><br><table class="table"><tr>' +
+                        var list = document.getElementById("list");
+                        s = '<div id="action_info"></div><br><table class="table"><thead><tr>' +
                             '<th>图片</th>' +
                             '<th>编号</th>' +
                             '<th>名称</th>' +
@@ -59,23 +154,15 @@
                             '<th>用途</th>' +
                             '<th>价格</th>' +
                             '<th>库存</th>' +
-                            '<th></th>' +
-                            '</tr><tbody>';
-                        console.log(msg);
-                        var list = document.getElementById("list");
+                            '<th></th><th></th></tr></thead><tbody>';
                         for (var i = 0; i < msg.length; i++) {
                             goods = msg[i];
-                            s += '<tr><td><img src=\"' + goods.pic + '\" style="height: 100px;float: left;"></td>';
-                            s += '<td>' + goods.id + '</td>';
-                            s += '<td>' + goods.name + '</td>';
-                            s += '<td>' + goods.type + '</td>';
-                            s += '<td>' + goods.useWay + '</td>';
-                            s += '<td>' + goods.price + '</td>';
-                            s += '<td>' + goods.stock + '</td>';
+                            s += "<tr><td><img src='{0}' style='height: 100px;'/></td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td>";
                             s += '<td>' +
-                                '<a href="javascript:addToShopCart(' + goods.stock + ',' + goods.id + ')" class="btn btn-danger">加入购物车</a>' +
-                                ' <a href="#" class="btn btn-primary">购买</a>' +
-                                '</td></tr>';
+                                "<button onclick='showOrderFrom({7},{8},{1},0)' class='btn btn-danger'><span class='glyphicon glyphicon-plus'></span>加入购物车</button>" +
+                                "  <button onclick='showOrderFrom({7},{8},{1},1)' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span>购买</button>" +
+                                "</td><td id='{1}'></td></tr>";
+                            s = s.format(goods['pic'], goods['id'], goods['name'], goods['type'], goods['useWay'], goods['price'], goods['stock'], goods['stock'], goods['id']);
                         }
                         s += '</tbody></table>';
                         list.innerHTML = s;
@@ -105,6 +192,28 @@
             );
         }
 
+        String.prototype.format = function (args) {
+            var result = this;
+            if (arguments.length > 0) {
+                if (arguments.length == 1 && typeof (args) == "object") {
+                    for (var key in args) {
+                        if (args[key] != undefined) {
+                            var reg = new RegExp("({" + key + "})", "g");
+                            result = result.replace(reg, args[key]);
+                        }
+                    }
+                }
+                else {
+                    for (var i = 0; i < arguments.length; i++) {
+                        if (arguments[i] != undefined) {
+                            var reg = new RegExp("({[" + i + "]})", "g");
+                            result = result.replace(reg, arguments[i]);
+                        }
+                    }
+                }
+            }
+            return result;
+        };
     </script>
 </head>
 
@@ -113,7 +222,7 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="/index.jsp" class="navbar-brand">某宝网</a>
+            <a href="index.jsp" class="navbar-brand">某宝网</a>
         </div>
     </div>
     <div>
@@ -130,12 +239,14 @@
                     );
                 }
             %>
+            <li><a href="admin_log.jsp"><span class="glyphicon glyphicon-edit"></span>管理</a></li>
         </ul>
     </div>
 </nav>
 <div class="container text-center">
+
     <img id="loading_img" src="imgs/loading.gif"/>
-    <div id="list" class="table-responsive">
+    <div id="list">
 
     </div>
 </div>

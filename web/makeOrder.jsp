@@ -75,7 +75,7 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="/index.jsp" class="navbar-brand">某宝网|确定订单</a>
+            <a href="index.jsp" class="navbar-brand">某宝网|确定订单</a>
         </div>
     </div>
     <div>
@@ -117,7 +117,7 @@
                     for (HashMap<String, Object> hashMap : array) {
                         Goods goods = (Goods) hashMap.get("goods");
                         int number = (int) hashMap.get("number");
-                        String s = "<tr><td>%s</td><td>%s</td><td class=\"badge\">%s</td><td><img src=\"%s\" style=\"height:100px;\"></td></tr>";
+                        String s = "<tr><td>%s</td><td>%s</td><td>%s</td><td><img src=\"%s\" style=\"height:100px;\"></td></tr>";
                         s = String.format(s, goods.getName(), goods.getPrice(), number, goods.getPic());
                         out.println(s);
                         sum += goods.getPrice() * number;

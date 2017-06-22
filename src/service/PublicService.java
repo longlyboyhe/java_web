@@ -15,7 +15,7 @@ public class PublicService {
     public User userLogin(User user) {
         User u = null;
         try {
-            u = DaoUserImp.selectUserByNameAndPass(user.getName(), user.getPwd());
+            u = DaoUserImp.selectUserByNameAndPass(user.getName(), user.getPwd(), user.getUserType());
         } catch (SQLException e) {
             e.printStackTrace();
         }

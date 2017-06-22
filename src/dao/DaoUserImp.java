@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DaoUserImp {
-    public static User selectUserByNameAndPass(String name, String pwd) throws SQLException {
+    public static User selectUserByNameAndPass(String name, String pwd, int type) throws SQLException {
         Connection conn = Dao.getConnection();
         if (conn == null) {
             System.out.println("connect null");
             return null;
         }
         Statement st = conn.createStatement();
-        String sql = "select * from t_user where name ='" + name + "' and pass = '" + pwd + "';";
+        String sql = "select * from t_user where name ='" + name + "' and pass = '" + pwd + "' and type ='" + type + "';";
         ResultSet rs = st.executeQuery(sql);
         User user = null;
         if (rs.next()) {

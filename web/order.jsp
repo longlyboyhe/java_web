@@ -75,7 +75,7 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="/index.jsp" class="navbar-brand">某宝网|我的订单</a>
+            <a href="index.jsp" class="navbar-brand">某宝网|我的订单</a>
         </div>
     </div>
     <div>

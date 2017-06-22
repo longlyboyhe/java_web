@@ -47,4 +47,15 @@
         <url-pattern>/order.do</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>goods</servlet-name>
+        <servlet-class>servlet.GoodsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>goods</servlet-name>
+        <url-pattern>/goods.do</url-pattern>
+    </servlet-mapping>
+
 </web-app>
