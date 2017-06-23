@@ -27,4 +27,8 @@ public class GoodsService {
     public boolean updateGoods(Goods goods) throws SQLException {
         return DaoGoodsImpl.updateGoods(goods);
     }
+
+    public boolean deleteGoodsById(int deleteGoodsNo) throws SQLException {
+        return DaoGoodsImpl.deleteGoodsById(deleteGoodsNo);
+    }
 }

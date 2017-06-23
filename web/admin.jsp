@@ -149,10 +149,10 @@
         }
         function setGoods(m) {
             var well_2 = document.getElementById("well_2_2");
-            var content = "<table class='table'><thead><tr><th>图片</th><th>编号</th><th>名称</th><th>用途</th><th>类型</th><th>库存</th><th>价格</th><th></th></tr></thead><tbody>";
+            var content = "<table class='table'><thead><tr><th>图片</th><th>编号</th><th>名称</th><th>用途</th><th>类型</th><th>库存</th><th>价格</th><th></th><th></th></tr></thead><tbody>";
             for (var i = 0; i < m.length; i++) {
                 goods = m[i];
-                content += "<tr><td><img src='%1' style='height: 100px'></td><td>%2</td><td>%3</td><td>%4</td><td>%5</td><td>%6</td><td>%7</td><td><button class='btn btn-warning' onclick='editGoods(" + JSON.stringify(goods) + ")'>修改</button></td></tr>";
+                content += "<tr><td><img src='%1' style='height: 100px'></td><td>%2</td><td>%3</td><td>%4</td><td>%5</td><td>%6</td><td>%7</td><td><button class='btn btn-warning' onclick='editGoods(" + JSON.stringify(goods) + ")'>修改</button></td><td><button class='btn btn-warning' onclick='deleteGoods(" + goods['id'] + ")'>删除</button></td></tr>";
                 content = String.format(content, goods['pic'], goods['id'], goods['name'], goods['useWay'], goods['type'], goods['stock'], goods['price']);
             }
             content += "</tbody></table>";
@@ -189,6 +189,30 @@
             }
             content += "</tbody></table>";
             well_3.innerHTML = content;
+        }
+
+        function deleteGoods(goodsNo) {
+            var sure = confirm("确定删除?");
+            if (sure) {
+                $.ajax({
+                    type: "post",
+                    dataType: "text",
+                    url: "goods.do",
+                    async: "true",
+                    data: {
+                        "action": "delete_goods",
+                        "goodsNo": goodsNo
+                    }, success: function (m) {
+                        if (m === 'ok') {
+                            location.reload();
+                        } else {
+                            alert("操作失败");
+                        }
+                    }, error: function (m) {
+                        alert("操作失败:" + m);
+                    }
+                });
+            }
         }
 
         function editGoods(goods) {

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <script type="application/javascript" src="js/jquery-3.2.1.js"></script>
     <script src="bootstrap-3/js/bootstrap.min.js" type="javascript"></script>
-    <link href="bootstrap-3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="bootstrap-3/css/bootstrap.css" rel="stylesheet" type="text/css">
     <script type="application/javascript">
         function showOrderFrom(stock, goodsId, position, action) {
             if ('null' === '<%=session.getAttribute("user")%>') {
@@ -90,7 +90,7 @@
                     if (m === 'ok') {
                         location.href = "order.jsp";
                     } else {
-
+                        alert("操作失败");
                     }
                 }, error: function (m) {
                     console.log(m);
@@ -145,36 +145,60 @@
                     data: {
                         "action": "get_all_goods"
                     }, success: function (msg) {
-                        var list = document.getElementById("list");
-                        s = '<div id="action_info"></div><br><table class="table"><thead><tr>' +
-                            '<th>图片</th>' +
-                            '<th>编号</th>' +
-                            '<th>名称</th>' +
-                            '<th>类型</th>' +
-                            '<th>用途</th>' +
-                            '<th>价格</th>' +
-                            '<th>库存</th>' +
-                            '<th></th><th></th></tr></thead><tbody>';
-                        for (var i = 0; i < msg.length; i++) {
-                            goods = msg[i];
-                            s += "<tr><td><img src='{0}' style='height: 100px;'/></td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td>";
-                            s += '<td>' +
-                                "<button onclick='showOrderFrom({7},{8},{1},0)' class='btn btn-danger'><span class='glyphicon glyphicon-plus'></span>加入购物车</button>" +
-                                "  <button onclick='showOrderFrom({7},{8},{1},1)' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span>购买</button>" +
-                                "</td><td id='{1}'></td></tr>";
-                            s = s.format(goods['pic'], goods['id'], goods['name'], goods['type'], goods['useWay'], goods['price'], goods['stock'], goods['stock'], goods['id']);
+                        function getOutStr(goods) {
+                            s = "";
+                            s += "<div class='col-xs-12 col-sm-12 col-md-" + 12 / column + " col-lg-" + 12 / column + "'><div class='thumbnail'>" +
+                                "<img src='{0}' alt=''>" +
+                                "<div class='caption'>" +
+                                "<h3>{1}</h3>" +
+                                "<p><span class='label label-default'>{2} {3} {4}</span></p>" +
+                                "<p><span class='label label-info'>{5}</span></p>" +
+                                "<p><button onclick='showOrderFrom({4},{6},{6},0)' class='btn btn-danger'><span class='glyphicon glyphicon-plus'></span>加入购物车</button>  " +
+                                "<button onclick='showOrderFrom({4},{6},{6},1)' class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span>购买</button>" +
+                                "<div id='{6}'></div>" +
+                                "</p></div></div></div>";
+
+                            s = s.format(
+                                goods['pic'],
+                                goods['name'],
+                                goods['type'],
+                                goods['useWay'],
+                                goods['stock'],
+                                goods['price'],
+                                goods['id']);
+                            return s;
                         }
-                        s += '</tbody></table>';
-                        list.innerHTML = s;
+
                         document.getElementById("loading_img").style.display = "none";
-                        document.body.style.background = "#fff";
+                        var list = document.getElementById("list");
+                        s = "";
+                        column = 3;
+                        for (var i = 0; i < msg.length; i++) {
+                            s += "<div class='row'>";
+                            var goods = msg[i];
+                            s += getOutStr(goods);
+                            ++i;
+                            if (i < msg.length) {
+                                goods = msg[i];
+                                s += getOutStr(goods);
+                                ++i;
+                                if (i < msg.length) {
+                                    goods = msg[i];
+                                    s += getOutStr(goods);
+                                }
+                            }
+                            s += "</div>";
+                        }
+                        list.innerHTML = s;
                     }, error: function (msg) {
                         console.log(msg);
                         document.getElementById("loading_img").style.display = "none";
                     }
+
                 }
             )
         }
+
         function logOut() {
             $.ajax({
                     type: "get",
@@ -246,6 +270,7 @@
 <div class="container text-center">
 
     <img id="loading_img" src="imgs/loading.gif"/>
+
     <div id="list">
 
     </div>

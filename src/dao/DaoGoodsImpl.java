@@ -72,4 +72,12 @@ public class DaoGoodsImpl {
         sql = String.format(sql, goods.getName(), goods.getType(), goods.getUseWay(), goods.getStock(), goods.getPrice(), goods.getPic(), goods.getId());
         return st.executeUpdate(sql) > 0;
     }
+
+    public static boolean deleteGoodsById(int deleteGoodsNo) throws SQLException {
+        Connection conn = Dao.getConnection();
+        Statement st = conn.createStatement();
+        String sql = "DELETE FROM t_goods WHERE goodsNo='%d'";
+        sql = String.format(sql, deleteGoodsNo);
+        return st.executeUpdate(sql) > 0;
+    }
 }

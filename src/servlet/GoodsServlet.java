@@ -71,6 +71,20 @@ public class GoodsServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
+            case "delete_goods":
+                int deleteGoodsNo = Integer.parseInt(request.getParameter("goodsNo"));
+                re = false;
+                try {
+                    re = goodsService.deleteGoodsById(deleteGoodsNo);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if (re) {
+                    writer.print("ok");
+                } else {
+                    writer.print("failed");
+                }
+                break;
         }
     }
 
@@ -92,11 +106,8 @@ public class GoodsServlet extends HttpServlet {
         if (image == null) {
             return null;
         }
-        String header = "data:image/jpeg;base64,";
-        if (image.indexOf(header) != 0) {
-            return null;
-        }
-        image = image.substring(header.length());
+        int start = image.indexOf(",") + 1;
+        image = image.substring(start);
         BASE64Decoder dec = new BASE64Decoder();
         byte[] decodedBytes = dec.decodeBuffer(image);
         ServletContext context = getServletContext();
